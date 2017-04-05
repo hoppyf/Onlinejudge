@@ -6,6 +6,7 @@ ADD requirements.txt /code/
 RUN pip install -i http://pypi.douban.com/simple  -r requirements.txt --trusted-host pypi.douban.com
 RUN rm /etc/apt/sources.list
 ADD sources.list /etc/apt/
+RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get -y install nodejs
 ADD gunicorn.conf /etc
