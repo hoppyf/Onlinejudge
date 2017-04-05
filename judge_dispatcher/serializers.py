@@ -27,3 +27,4 @@ class EditJudgesSerializer(serializers.Serializer):
 class JudgesSerializer(serializers.ModelSerializer):
     class Meta:
         model = JudgeServer
+        fields = '__all__'
