@@ -8,6 +8,8 @@ mysql:
         - /home/data/mysql:/var/lib/mysql
     environment:
         - MYSQL_ROOT_PASSWORD={your_password}
+    ports:
+        - "3306:3306"
 oj_web_server:
     build: .
     volumes:
