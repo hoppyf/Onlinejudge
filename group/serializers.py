@@ -41,6 +41,7 @@ class JoinGroupRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JoinGroupRequest
+        fields = '__all__'
 
 
 class GroupSerializer(serializers.ModelSerializer):

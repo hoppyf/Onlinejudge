@@ -37,6 +37,7 @@ class ContestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contest
+        fields = '__all__'
 
 
 class EditContestSerializer(serializers.Serializer):
@@ -93,6 +94,7 @@ class ContestProblemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ContestProblem
+        fields = '__all__'
 
 
 class EditContestProblemSerializer(serializers.Serializer):
