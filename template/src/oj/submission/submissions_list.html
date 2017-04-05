@@ -1,0 +1,158 @@
+{% extends 'oj_base.html' %}
+{% block title %}
+我的提交列表
+{% endblock %}
+{% block body %}
+{% load submission %}
+<div class="container main">
+    <div class="col-md-12 col-lg-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>用户</th>
+                <th>题目名称</th>
+                <th>提交时间</th>
+                <th>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="languageFilter" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="true">
+                            语言<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="languageFilter">
+                            <li><a href="/submissions/?language=1{% if not show_all %}&my=true{% endif %}">C</a></li>
+                            <li><a href="/submissions/?language=2{% if not show_all %}&my=true{% endif %}">C++</a></li>
+                            <li><a href="/submissions/?language=3{% if not show_all %}&my=true{% endif %}">Java</a></li>
+                            <li><a href="/submissions/">显示全部</a></li>
+                        </ul>
+                    </div>
+                </th>
+                <th>运行时间</th>
+                <th>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="resultFilter" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="true">
+                            结果<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="resultFilter">
+                            <li><a href="/submissions/?result=0{% if not show_all %}&my=true{% endif %}">Accepted</a>
+                            </li>
+                            <li><a href="/submissions/?result=6{% if not show_all %}&my=true{% endif %}">Wrong
+                                Answer</a></li>
+                            <li><a href="/submissions/?result=1{% if not show_all %}&my=true{% endif %}">Runtime
+                                Error</a></li>
+                            <li><a href="/submissions/?result=2{% if not show_all %}&my=true{% endif %}">Time Limit
+                                Exceeded</a></li>
+                            <li><a href="/submissions/?result=3{% if not show_all %}&my=true{% endif %}">Memory Limit
+                                Exceeded</a></li>
+                            <li><a href="/submissions/?result=4{% if not show_all %}&my=true{% endif %}">Compile
+                                Error</a></li>
+                            <li><a href="/submissions/?result=7{% if not show_all %}&my=true{% endif %}">System
+                                Error</a></li>
+                            <li><a href="/submissions/">显示全部</a></li>
+                        </ul>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in submissions %}
+            <tr>
+                <th scope="row">
+                    {% if item.show_link %}
+                    <a href="/submission/{{ item.id }}/">{{ forloop.counter |add:start_id }}</a>
+                    {% else %}
+                    {{ forloop.counter |add:start_id }}
+                    {% endif %}
+                </th>
+                <td><a href="/user/{{ item.user.username }}">{{ item.user.username }}</a></td>
+                <td>
+                    <a href="/problem/{{ item.problem_id }}/">{{ item.title }}</a>
+                </td>
+                <td>{{ item.create_time }}</td>
+                <td>
+                    {{ item.language|translate_language }}
+                </td>
+                <td>
+                    {% if item.accepted_answer_time != None %}
+                    {{ item.accepted_answer_time }}ms
+                    {% else %}
+                    --
+                    {% endif %}
+                </td>
+                <td class="alert-{{ item.result|translate_result_class }}">
+                    <strong>{{ item.result|translate_result }}</strong>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        {% if not one_page %}
+        <nav aria-label="..." style="text-align: center">
+            <ul class="pagination">
+                {% if submissions.has_previous %}
+                <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="/submissions/{{ previous_page }}/">&laquo;</a>
+                        </span>
+                      </span>
+                </li>
+                {% else %}
+                <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &laquo;
+                        </span>
+                      </span>
+                </li>
+                {% endif %}
+                {% for p in page_range %}
+                {% ifequal p submissions.number %}
+                <li class="active">
+                    <span>{{p}}</span>
+                </li>
+                {% else %}
+                <li>
+                      <span>
+                          <a href="/submissions/{{ p }}/" title="第{{p}}页">{{p}}</a>
+                      </span>
+                </li>
+                {% endifequal %}
+                {% endfor %}
+                {% if submissions.has_next %}
+                <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="/submissions/{{ next_page }}/">&raquo;</a>
+                        </span>
+                      </span>
+                </li>
+                {% else %}
+                <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &raquo;
+                        </span>
+                      </span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% if not submissions %}
+        <p>你还没有提交记录!</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+{% block js_block %}
+<script>
+    $(document).ready(function () {
+        $("#submissions").addClass("active");
+    });
+</script>
+{% endblock %}

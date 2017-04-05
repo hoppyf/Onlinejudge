@@ -1,0 +1,231 @@
+{% extends "oj_base.html" %}
+{% block title %}
+{{ user.username }}的主页
+{% endblock %}
+{% block css_block %}
+<link href="/static/css/animate/animate.css" rel="stylesheet"/>
+<style type="text/css">
+    #hidden_message_box {
+        position: absolute;
+        z-index: 100;
+        border: 2px solid #d1d4ce;
+        border-radius: 8px;
+        display: none;
+        background-color: #f0f0f0;
+        left: 370px;
+        top: 200px;
+    }
+
+    .Dialog-make {
+        width: 100%;
+        height: 100%;
+        filter: alpha(opacity=5);
+        opacity: .05;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 98;
+        background: #000;
+        display: none;
+    }
+
+    .msg_detail {
+        width: 100%;
+        height: 150px;
+        border: 2px solid #e4e7e2;
+        border-radius: 8px;
+        margin: 15px;
+        -webkit-transition: all .2s linear;
+        transition: all .2s linear;
+    }
+
+    .msg_detail:hover {
+        -webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, .1)
+    }
+
+    .msg_content {
+        padding: 10px;
+        width: 100%;
+        height: 80%;
+        word-wrap: break-word;
+    }
+
+    .msg_username {
+        text-align: right;
+        height: 20%;
+        padding-right: 5px;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+<div class="container main">
+    <div class="col-lg-4">
+        <div class="avatar">
+            <img src="{{ user.userprofile.avatar }}" class="img-responsive big-avatar">
+        </div>
+        <div>
+            <h2>
+                {{ user.username }}
+                {% ifequal user.admin_type 2 %}
+                <span class="glyphicon glyphicon-star super-admin-star" title="超级管理员"></span>
+                {% endifequal %}
+                {% ifequal user.admin_type 1 %}
+                <span class="glyphicon glyphicon-star admin-star"></span>
+                {% endifequal %}
+                <button class="btn btn-primary" type="button" id="leave_message">给TA留言</button>
+            </h2>
+            {% if user.userprofile.mood %}
+            <p id="user-mood">{{ user.userprofile.mood }}</p>
+            {% endif %}
+
+        </div>
+        <div class="list-group col-lg-9">
+            {% if user.userprofile.school %}
+            <p class="list-group-item"><span class="glyphicon glyphicon-education"></span>
+                {{ user.userprofile.school }}
+            </p>
+            {% endif %}
+            {% if user.userprofile.blog %}
+            <p class="list-group-item"><span class="glyphicon glyphicon-link"></span>
+                <a href="{{ user.userprofile.blog }}" target="_blank">{{ blog_link }}</a>
+            </p>
+            {% endif %}
+
+            {% if user.userprofile.hduoj_username %}
+            <p class="list-group-item">
+                <img src="/static/img/oj_logo/hdu_logo.png" id="oj-logo">
+                <a href="http://acm.hdu.edu.cn/userstatus.php?user={{ user.userprofile.hduoj_username }}"
+                   target="_blank">
+                    {{ user.userprofile.hduoj_username }}
+                </a>
+            </p>
+            {% endif %}
+
+            {% if user.userprofile.bestcoder_username %}
+            <p class="list-group-item">
+                <img src="/static/img/oj_logo/bestcoder_logo.png" id="oj-logo">
+                <a href="http://bestcoder.hdu.edu.cn/rating.php?user={{ user.userprofile.bestcoder_username }}"
+                   target="_blank">
+                    {{ user.userprofile.bestcoder_username }}
+                </a>
+            </p>
+            {% endif %}
+
+            {% if user.userprofile.codeforces_username %}
+            <p class="list-group-item">
+                <img src="/static/img/oj_logo/codeforces_logo.png" id="oj-logo">
+                <a href="http://codeforces.com/profile/{{ user.userprofile.codeforces_username }}" target="_blank">
+                    {{ user.userprofile.codeforces_username }}
+                </a>
+            </p>
+            {% endif %}
+
+            <p class="list-group-item">
+                <span class="glyphicon glyphicon-calendar"></span>
+                {{ user.create_time }}
+            </p>
+            <div class="rows">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8" style="margin-left: -50px;">
+        {% for item in messages %}
+        <div class="msg_detail">
+            <div class="msg_content">
+                {{item.content}}
+            </div>
+            <div class="msg_username">
+                <span class="glyphicon glyphicon-time">{{item.created_time|date:"Y-m-d H:i:s" }}</span>
+                <span class="glyphicon glyphicon-user">{{item.who_leave.username}}</span>
+            </div>
+        </div>
+        {% endfor %}
+        {% if not one_page %}
+        <nav aria-label="..." style="text-align: center">
+            <ul class="pagination">
+                {% if messages.has_previous %}
+                <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="?page={{ previous_page }}">&laquo;</a>
+                        </span>
+                      </span>
+                </li>
+                {% else %}
+                <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &laquo;
+                        </span>
+                      </span>
+                </li>
+                {% endif %}
+                {% for p in page_range %}
+                {% ifequal p messages.number %}
+                <li class="active">
+                    <span>{{p}}</span>
+                </li>
+                {% else %}
+                <li>
+                      <span>
+                          <a href="?page={{ p }}" title="第{{p}}页">{{p}}</a>
+                      </span>
+                </li>
+                {% endifequal %}
+                {% endfor %}
+                {% if messages.has_next %}
+                <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="?page={{ next_page }}">&raquo;</a>
+                        </span>
+                      </span>
+                </li>
+                {% else %}
+                <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &raquo;
+                        </span>
+                      </span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+<div id="hidden_message_box" class="col-lg-6  animated">
+    <div style="margin: 10px">
+        <div style="margin-top: 10px">To: <b id="leave_to_who">{{user.username}}</b></div>
+        <form role="form" style="margin-top: 10px" method="post">
+            <div class="form-group">
+                <textarea class="form-control" rows="10" style="resize: none;background-color: #fbf6ff"
+                          id="message_info"></textarea>
+            </div>
+            <div align="right">
+                <button class="btn btn-default" id="disappear" type="button">取消</button>
+                <input class="btn btn-default" type="submit" value="提交"/>
+            </div>
+        </form>
+    </div>
+</div><!-- /.col-lg-6 -->
+<div class="Dialog-make"></div>
+{% endblock %}
+{% block js_block %}
+<script>
+    $(document).ready(function () {
+        $("#disappear").click(function () {
+            $("#hidden_message_box").addClass("zoomOutDown");
+            $(".Dialog-make").css("display", "none");
+        });
+        $("#leave_message").click(function () {
+            $("#hidden_message_box").css("display", "block").removeClass("zoomOutDown").addClass("fadeInLeftBig");
+            $(".Dialog-make").css("display", "block");
+        });
+    });
+</script>
+<script src="/static/js/app/oj/account/message.js"></script>
+{% endblock %}

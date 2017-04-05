@@ -1,0 +1,99 @@
+{% extends "oj_base.html" %}
+{% block body %}
+
+<div class="container main">
+    <div class="col-md-12 col-lg-12">
+        <table class="table table-striped">
+            {% if request.user.is_authenticated %}
+
+            <caption>我的数据: 通过的题目数量: {{ request.user.userprofile.accepted_problem_number }}
+                总提交数量: {{ request.user.userprofile.submission_number }}
+            </caption>
+            {% endif %}
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>签名</th>
+                <th>通过的题目数量</th>
+                <th>总提交数量</th>
+                <th>AC 率</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rank in ranks %}
+            <tr>
+                <th scope="row">{{ forloop.counter |add:start_id }}</th>
+                <td><a href="/user/{{ rank.user.username }}">{{ rank.user.username }}</a></td>
+                <td>{% if rank.mood %}{{ rank.mood }}{% endif %}</td>
+                <td>{{ rank.accepted_problem_number }}</td>
+                <td>{{ rank.submission_number }}</td>
+                <td>{{ rank.submission_ratio|floatformat:2 }}%</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        {% if not one_page %}
+        <nav aria-label="..." style="text-align: center">
+            <ul class="pagination">
+                {% if ranks.has_previous %}
+                <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="/rank/{{ previous_page }}/">&laquo;</a>
+                        </span>
+                      </span>
+                </li>
+                {% else %}
+                <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &laquo;
+                        </span>
+                      </span>
+                </li>
+                {% endif %}
+                {% for p in page_range %}
+                {% ifequal p ranks.number %}
+                <li class="active">
+                    <span>{{p}}</span>
+                </li>
+                {% else %}
+                <li>
+                      <span>
+                          <a href="/rank/{{ p }}/" title="第{{p}}页">{{p}}</a>
+                      </span>
+                </li>
+                {% endifequal %}
+                {% endfor %}
+                {% if ranks.has_next %}
+                <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="/rank/{{ next_page }}/">&raquo;</a>
+                        </span>
+                      </span>
+                </li>
+                {% else %}
+                <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &raquo;
+                        </span>
+                      </span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block js_block %}
+<script>
+    $(document).ready(function () {
+        $("#rank").addClass("active");
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "oj_base.html" %}
+{% block title %}
+小组列表
+{% endblock %}
+{% block body %}
+{% load problem %}
+<div class="container main">
+    <div class="row">
+        <div class="col-md-9 col-lg-9">
+            <div class="row">
+                <div class="right">
+                    <form class="form-inline" method="get">
+                        <div class="form-group-sm">
+                            <input name="keyword" class="form-control" placeholder="请输入关键词">
+                            <input type="submit" value="搜索" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" id="statusFilter" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="true">
+                                    状态<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="statusFilter">
+                                    <li><a href="/groups/?status=1{% if join %}&&join={{join}}{% endif %}">路人</a>
+                                    </li>
+                                    <li>
+                                        <a href="/groups/?status=2{% if join %}&&join={{join}}{% endif %}">组员</a>
+                                    </li>
+                                    <li>
+                                        <a href="/groups/?status=3{% if join %}&&join={{join}}{% endif %}">组长</a>
+                                    </li>
+                                    <li>
+                                        <a href="/groups/?status=4{% if join %}&&join={{join}}{% endif %}">申请中</a>
+                                    </li>
+                                    <li><a href="/groups/{% if join %}?join={{join}}{% endif %}">显示全部</a></li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th>名称</th>
+                        <th>
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" id="joinFilter" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="true">
+                                    加入方式<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="joinFilter">
+                                    <li><a href="/groups/?join=1{% if status %}&&status={{status}}{% endif %}">需要申请</a>
+                                    </li>
+                                    <li>
+                                        <a href="/groups/?join=0{% if status %}&&status={{status}}{% endif %}">无需申请</a>
+                                    </li>
+                                    <li>
+                                        <a href="/groups/?join=2{% if status %}&&status={{status}}{% endif %}">不允许加入</a>
+                                    </li>
+                                    <li><a href="/groups/{% if status %}?status={{status}}{% endif %}">显示全部</a></li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th>创建者</th>
+                        <th>创建时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in groups %}
+                    <tr>
+                        <td>
+                            {% if item.is_joined == 0 %}
+                            路人
+                            {% elif item.is_joined == 1 %}
+                            组员
+                            {% elif item.is_joined == 2 %}
+                            组长
+                            {% elif item.is_joined == 3 %}
+                            申请中
+                            {% endif %}
+                        </td>
+                        <td><a href="/group/{{ item.id }}/" target="_blank">{{ item.name }}</a></td>
+                        <td>
+                            {% ifequal item.join_group_setting 1 %}
+                            需要申请
+                            {% endifequal %}
+                            {% ifequal item.join_group_setting 0 %}
+                            无需申请
+                            {% endifequal %}
+                            {% ifequal item.join_group_setting 2 %}
+                            不允许加入
+                            {% endifequal %}
+                        </td>
+                        <td>{{ item.created_by }}</td>
+                        <td>{{ item.create_time }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if not one_page %}
+                <nav aria-label="..." style="text-align: center">
+                    <ul class="pagination">
+                        {% if groups.has_previous %}
+                        <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="/groups/{{ previous_page }}/{% if keyword %}?keyword={{ keyword }}{% endif %}">&laquo;</a>
+                        </span>
+                      </span>
+                        </li>
+                        {% else %}
+                        <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &laquo;
+                        </span>
+                      </span>
+                        </li>
+                        {% endif %}
+                        {% for p in page_range %}
+                        {% ifequal p groups.number %}
+                        <li class="active">
+                            <span>{{p}}</span>
+                        </li>
+                        {% else %}
+                        <li>
+                      <span>
+                          <a href="/groups/{{ p }}/{% if keyword %}?keyword={{ keyword }}{% endif %}" title="第{{p}}页">{{p}}</a>
+                      </span>
+                        </li>
+                        {% endifequal %}
+                        {% endfor %}
+                        {% if groups.has_next %}
+                        <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="/groups/{{ next_page }}/{% if keyword %}?keyword={{ keyword }}{% endif %}">&raquo;</a>
+                        </span>
+                      </span>
+                        </li>
+                        {% else %}
+                        <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &raquo;
+                        </span>
+                      </span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-3 col-lg-3">
+            {% include "oj/announcement/_announcement_panel.html" %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js_block %}
+<script>
+    $(document).ready(function () {
+        $("#groups").addClass("active");
+    });
+</script>
+{% endblock %}

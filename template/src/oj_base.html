@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+{% load website_info %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <title>
+        {% block title %}
+            {% show_website_info "website_name" %}
+        {% endblock %}
+    </title>
+
+    <!-- global css begin -->
+    <link href="/static/css/oj.css" rel="stylesheet">
+    <link href="/static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+    <!-- global css end -->
+
+    <!-- custom css begin -->
+    {% block css_block %}{% endblock %}
+    <!-- custom css end -->
+</head>
+
+
+<body>
+
+
+<div id="browser-unsupported" style="display: none">人生苦短, 何必还在用这么老的浏览器~
+    当前网页 <strong>不支持</strong> 你正在使用的浏览器, 为了正常的访问,
+    请 <a href="http://browsehappy.com/">升级你的浏览器</a>。
+</div>
+<script>
+    if(navigator.userAgent.indexOf("MSIE") > -1){
+        document.getElementById("browser-unsupported").removeAttribute("style");
+    }
+</script>
+
+<!-- Navigation -->
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <!-- Logo and responsive toggle -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">ZUST OJ</a>
+            </div>
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li id="problems"><a href="/problems/">题目</a></li>
+                    <li id="submissions"><a href="/submissions/">提交</a></li>
+                    <li id="contests"><a href="/contests/">比赛</a></li>
+                    <li id="groups"><a href="/groups/">小组</a></li>
+                    <li id="rank"><a href="/rank/">排名</a></li>
+                    <li id="help"><a href="/help/">帮助</a></li>
+                </ul>
+                {% if request.user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            {{ request.user.username }}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% if request.user.admin_type > 0 %}
+                                <li><a href="/admin/">后台管理</a></li>
+                                <li role="separator" class="divider"></li>
+                            {% endif %}
+                            <li><a href="/user/{{ request.user.username }}/">我的主页</a></li>
+                            <li><a href="/submissions/?my=true">我的提交</a></li>
+                            <li><a href="/account/settings/">设置</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout/">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/login/">
+                            登录
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+<!-- Navigation end -->
+
+<!-- custom body begin -->
+{% block body %}{% endblock %}
+<!-- custom body end -->
+
+<script src="/static/js/config.js"></script>
+<script src="/static/js/require.js"></script>
+<script src="/static/js/lib/bootstrap/bootstrap.js"></script>
+<script src="/static/js/lib/jquery/jquery.js"></script>
+{% block js_block %}{% endblock %}
+<!-- footer begin -->
+<div class="footer">
+    <p class="text-muted text-center">Copyright © 2017 {% autoescape off %}{% show_website_info "website_footer" %}{% endautoescape %}</p>
+</div>
+<!-- footer end -->
+</body>
+</html>

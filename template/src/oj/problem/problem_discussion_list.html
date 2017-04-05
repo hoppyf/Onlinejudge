@@ -1,0 +1,139 @@
+{% extends "oj_base.html" %}
+{% block title %}
+讨论区
+{% endblock %}
+
+{% block css_block %}
+<link rel="stylesheet" href="/static/css/codeMirror/colorful.css" >
+<style type="text/css">
+    #discussion_message {
+        width: 100%;
+        height: 200px;
+        resize: vertical;
+    }
+    .pos {
+        float: right;
+    }
+</style>
+{% endblock %}
+
+{% load django_markdown %}
+{% load custom_markdown %}
+{% block body %}
+<div class="container main">
+    <ul class="nav nav-tabs nav-tabs-google">
+        <li role="presentation">
+            <a href="/problem/{{ problem.id }}/">题目</a></li>
+        <li role="presentation">
+            <a href="/problem/{{ problem.id }}/submissions/">我的提交</a>
+        </li>
+        <li role="presentation" class="active">
+            <a href="/problem/{{ problem.id }}/discussion/">讨论区</a>
+        </li>
+    </ul>
+    <br/>
+    {% if problem.contest_id %}
+        比赛不允许讨论！
+    {% else %}
+        {% if problem_discussion_list%}
+            {% for discussion in problem_discussion_list %}
+                <div>
+                    <span class="glyphicon glyphicon-user">&nbsp;{{discussion.user.username}}</span>
+                    <span class="glyphicon glyphicon-time" style="float: right;">&nbsp;{{discussion.created_time}}</span>
+                </div>
+                <br/>{{discussion.message|custom_markdown}}<br/>
+                <hr/>
+            {% endfor %}
+            <br/>
+            {% if not one_page %}
+            <nav aria-label="..." style="text-align: center">
+                <ul class="pagination">
+                    {% if problem_discussion_list.has_previous %}
+                    <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="?page={{ previous_page }}">&laquo;</a>
+                        </span>
+                      </span>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &laquo;
+                        </span>
+                      </span>
+                    </li>
+                    {% endif %}
+                    {% for p in page_range %}
+                    {% ifequal p problem_discussion_list.number %}
+                    <li class="active">
+                      <span>{{p}}</span>
+                    </li>
+                    {% else %}
+                    <li>
+                      <span>
+                          <a href="?page={{ p }}" title="第{{p}}页">{{p}}</a>
+                      </span>
+                    </li>
+                    {% endifequal %}
+                    {% endfor %}
+                      {% if problem_discussion_list.has_next %}
+                    <li>
+                      <span>
+                        <span aria-hidden="true">
+                            <a href="?page={{ next_page }}">&raquo;</a>
+                        </span>
+                      </span>
+                    </li>
+                    {% else %}
+                    <li class="disabled">
+                      <span>
+                        <span aria-hidden="true">
+                            &raquo;
+                        </span>
+                      </span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        {% else %}
+            <div>暂无内容。</div>
+        {% endif %}
+        <br/>
+        <div class="alert alert-success" role="alert">嘿!编辑器支持MarkDown啦，不会点<a href="http://www.jianshu.com/p/1e402922ee32/" target="_blank">这里</a>.
+        同时还有代码高亮，需在code加入语言类型，如:::c</div>
+        <form role="form" method="post">
+            <textarea name="discussion" id="discussion_message"></textarea>
+            <input type="hidden" id="hidden" value={{problem.id}} />
+            <input class="btn btn-primary pos" type="submit" value="提交"/>
+        </form>
+    {% endif %}
+
+    {% markdown_editor "#discussion_message" %}
+    {% markdown_media %}
+</div>
+{% endblock %}
+{% block js_block %}
+    <script src="/static/js/app/oj/problem/problem_discussion.js"></script>
+    <script>
+        //支持textarea tab缩进
+        $("textarea").on(
+            'keydown',
+            function(e) {
+                if (e.keyCode == 9) {
+                    e.preventDefault();
+                    var indent = '    ';
+                    var start = this.selectionStart;
+                    var end = this.selectionEnd;
+                    var selected = window.getSelection().toString();
+                    selected = indent + selected.replace(/\n/g, '\n' + indent);
+                    this.value = this.value.substring(0, start) + selected
+                            + this.value.substring(end);
+                    this.setSelectionRange(start + indent.length, start
+                            + selected.length);
+                }
+            });
+    </script>
+{% endblock %}
