@@ -2,6 +2,7 @@
 *.sqlite3
 *.db
 *.pid
+*.pyc
 static/release/css
 static/release/js
 static/release/img

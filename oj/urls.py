@@ -84,7 +84,7 @@ urlpatterns = [
         name="contest_problem_my_submissions_list_page"),
 
     url(r'^contest/(?P<contest_id>\d+)/$', "contest.views.contest_page", name="contest_page"),
-    url(r'^contest/(?P<contest_id>\d+)/problems/$', "contest.views.",
+    url(r'^contest/(?P<contest_id>\d+)/problems/$', "contest.views.contest_problems_list_page",
         name="contest_problems_list_page"),
     url(r'^contest/(?P<contest_id>\d+)/submissions/$', "contest.views.contest_problem_submissions_list_page",
         name="contest_problem_submissions_list_page"),
