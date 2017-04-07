@@ -1,11 +1,11 @@
 define("spj", ["avalon", "bsAlert"], function (avalon, bsAlert) {
     avalon.component("ms:spj", {
         $template: '<div class="col-md-6">' +
-        '<label>Special Judge</label>' +
+        ' ' +
         '<div class="form-group">' +
-        '<label class="text"><input type="checkbox" ms-duplex-checked="spj" ms-attr-disabled="checkboxDisabled">' +
-        '<small> Special Judge用于答案不唯一的情况,需要自己上传判题代码。上传测试用后如需要修改, 必须重新上传对应类型的新测试用例。' +
-        '<a href="https://github.com/QingdaoU/OnlineJudge/wiki/SpecialJudge" target="_blank">帮助和示例</a></small>' +
+        '<label class="text">' +
+        ' ' +
+        ' ' +
         '</label></div></div>' +
         '<div class="col-md-6" ms-if="spj">' +
         '<label>SPJ代码语言</label>' +
