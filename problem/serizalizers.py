@@ -33,7 +33,7 @@ class CreateProblemSerializer(serializers.Serializer):
     difficulty = serializers.IntegerField()
     tags = serializers.ListField(child=serializers.CharField(max_length=30))
     hint = serializers.CharField(allow_blank=True)
-    source = serializers.CharField(max_length=100, required=False, default=None)
+    source = serializers.CharField(max_length=100, allow_blank=True, required=False, default=None)
     visible = serializers.BooleanField()
 
 
