@@ -1,5 +1,5 @@
 require(["jquery", "avalon", "editor", "uploader", "bsAlert",
-        "csrfToken", "tagEditor", "validator", "jqueryUI", "editorComponent", "testCaseUploader", "spj"],
+        "csrfToken", "tagEditor", "validator", "jqueryUI", "editorComponent", "testCaseUploader"],
     function ($, avalon, editor, uploader, bsAlert, csrfTokenHeader) {
         avalon.ready(function () {
 
