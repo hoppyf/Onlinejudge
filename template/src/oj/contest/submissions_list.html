@@ -28,7 +28,7 @@
             {% if submissions %}
                 <thead>
             <tr>
-                <th>#</th>
+                <th>序号</th>
                 <th>题目名称</th>
                 <th>用户</th>
                 <th>提交时间</th>
@@ -42,7 +42,7 @@
                             <li><a href="/contest/{{ contest.id }}/submissions/?language=1{% if user_id %}&user_id={{ user_id }}{% endif %}">C</a></li>
                             <li><a href="/contest/{{ contest.id }}/submissions/?language=2{% if user_id %}&user_id={{ user_id }}{% endif %}">C++</a></li>
                             <li><a href="/contest/{{ contest.id }}/submissions/?language=3{% if user_id %}&user_id={{ user_id }}{% endif %}">Java</a></li>
-                            <li><a href="/contest/{{ contest.id }}/submissions/{% if user_id %}&user_id={{ user_id }}{% endif %}">取消筛选</a></li>
+                            <li><a href="/contest/{{ contest.id }}/submissions/{% if user_id %}&user_id={{ user_id }}{% endif %}">显示全部</a></li>
                         </ul>
                     </div>
                 </th>
@@ -60,8 +60,8 @@
                             <li><a href="/contest/{{ contest.id }}/submissions/?result=2{% if user_id %}&user_id={{ user_id }}{% endif %}">Time Limit Exceeded</a></li>
                             <li><a href="/contest/{{ contest.id }}/submissions/?result=3{% if user_id %}&user_id={{ user_id }}{% endif %}">Memory Limit Exceeded</a></li>
                             <li><a href="/contest/{{ contest.id }}/submissions/?result=4{% if user_id %}&user_id={{ user_id }}{% endif %}">Compile Error</a></li>
-                            <li><a href="/contest/{{ contest.id }}/submissions/?result=5{% if user_id %}&user_id={{ user_id }}{% endif %}">Format Error</a></li>
-                            <li><a href="/contest/{{ contest.id }}/submissions/{% if user_id %}&user_id={{ user_id }}{% endif %}">取消筛选</a></li>
+                            <li><a href="/contest/{{ contest.id }}/submissions/?result=5{% if user_id %}&user_id={{ user_id }}{% endif %}">System Error</a></li>
+                            <li><a href="/contest/{{ contest.id }}/submissions/{% if user_id %}&user_id={{ user_id }}{% endif %}">显示全部</a></li>
                         </ul>
                     </div>
                 </th>
