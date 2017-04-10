@@ -106,7 +106,7 @@ require(["jquery", "avalon", "editor", "uploader", "bsAlert",
                 vm.testCaseId = "";
                 vm.testCaseList = [];
                 vm.uploadSuccess = false;
-                vm.source = "";
+                vm.source = "无";
                 vm.uploadProgress = 0;
             }
             else {
@@ -124,7 +124,7 @@ require(["jquery", "avalon", "editor", "uploader", "bsAlert",
                     testCaseId: "",
                     testCaseList: [],
                     uploadSuccess: false,
-                    source: "",
+                    source: "无",
                     uploadProgress: 0,
 
                     problemDescriptionEditor: {

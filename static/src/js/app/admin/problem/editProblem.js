@@ -109,7 +109,7 @@ require(["jquery", "avalon", "editor", "uploader", "bsAlert",
                     outputDescription: "",
                     testCaseIdd: "",
                     uploadSuccess: false,
-                    source: "",
+                    source: "无",
                     testCaseList: [],
                     uploadProgress: 0,
 
