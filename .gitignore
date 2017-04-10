@@ -1,6 +1,6 @@
 *.pyc
 .idea/
-oj/custom_settings.py
+custom_settings.py
 *.sqlite3
 *.db
 *.pid
