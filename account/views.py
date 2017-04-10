@@ -324,8 +324,8 @@ class ApplyResetPasswordAPIView(APIView):
             except User.DoesNotExist:
                 return error_response(u"用户不存在")
             if user.reset_password_token_create_time and (
-                        now() - user.reset_password_token_create_time).total_seconds() < 20 * 60:
-                return error_response(u"20分钟内只能找回一次密码")
+                        now() - user.reset_password_token_create_time).total_seconds() < 2 * 60:
+                return error_response(u"2分钟内只能找回一次密码")
             user.reset_password_token = rand_str()
             user.reset_password_token_create_time = now()
             user.save()
