@@ -79,6 +79,8 @@ class EditUserProfileSerializer(serializers.Serializer):
     school = serializers.CharField(max_length=200, required=False, allow_blank=True, default='')
     phone_number = serializers.CharField(max_length=15, required=False, allow_blank=True, default='')
     student_id = serializers.CharField(max_length=15, required=False, allow_blank=True, default='')
+    email = serializers.EmailField(max_length=30, required=False)
+    real_name = serializers.CharField(max_length=10, required=False)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):

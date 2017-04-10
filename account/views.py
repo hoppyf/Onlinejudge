@@ -289,6 +289,7 @@ class UserProfileAPIView(APIView):
         if serializer.is_valid():
             data = serializer.data
             user_profile = request.user.userprofile
+            user = request.user
             if data["avatar"]:
                 user_profile.avatar = data["avatar"]
             else:
@@ -300,6 +301,9 @@ class UserProfileAPIView(APIView):
                 user_profile.school = data["school"]
                 user_profile.student_id = data["student_id"]
                 user_profile.phone_number = data["phone_number"]
+                user.real_name = data["real_name"]
+                user.email = data["email"]
+                user.save()
             user_profile.save()
             return success_response(u"修改成功")
         else:
