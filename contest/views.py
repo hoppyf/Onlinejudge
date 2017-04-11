@@ -620,9 +620,10 @@ def get_oj_status(request):
     """
     data = dict()
     import requests
-    ojs = ["HDU", "ZOJ", "POJ", "HUSTOJ", "ACdream", "codeforces", "bestcoder"]
+    ojs = ["HDU", "ZOJ", "POJ", "HUSTOJ", "ACdream", "codeforces", "bestcoder", "leetcode"]
     urls = ["http://acm.hdu.edu.cn/", "http://acm.zju.edu.cn/onlinejudge/", "http://poj.org/",
-            "http://acm.hust.edu.cn/", "http://acdream.info/", "http://codeforces.com/", "http://bestcoder.hdu.edu.cn/"]
+            "http://acm.hust.edu.cn/", "http://acdream.info/", "http://codeforces.com/",
+            "http://bestcoder.hdu.edu.cn/", "https://leetcode.com/"]
     for i, url in enumerate(urls):
         try:
             r = requests.get(url)
