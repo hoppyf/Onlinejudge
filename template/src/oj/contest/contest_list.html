@@ -121,6 +121,44 @@
 
         <div class="col-md-3 col-lg-3">
             {% include "oj/announcement/_announcement_panel.html" %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                        &nbsp;OnlineJudge
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="http://acm.hdu.edu.cn/" class="list-group-item" target="_blank">HDU
+                        <span id="HDU" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                    <a href="http://acm.zju.edu.cn/onlinejudge/" class="list-group-item" target="_blank">ZOJ
+                        <span id="ZOJ" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                    <a href="http://poj.org/" class="list-group-item" target="_blank">POJ
+                        <span id="POJ" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                    <a href="http://acm.hust.edu.cn/" class="list-group-item" target="_blank">HUSTOJ
+                        <span id="HUSTOJ" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                    <a href="http://acdream.info/" class="list-group-item" target="_blank">ACdream
+                        <span id="ACdream" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                    <a href="http://codeforces.com/" class="list-group-item" target="_blank">codeforces
+                        <span id="codeforces" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                    <a href="http://bestcoder.hdu.edu.cn/" class="list-group-item" target="_blank">bestcoder
+                        <span id="bestcoder" style="float: right;color: red;" class="glyphicon glyphicon-fire" aria-hidden="true">
+                        </span>
+                    </a>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -129,8 +167,27 @@
 
 {% block js_block %}
 <script>
+    function get_oj_status(){
+        $.ajax({
+            url: "/api/get_oj_status/",
+            method: "get",
+            success: function(data){
+                if(!data.code){
+                    var oj_status = data.data;
+                    $.each(oj_status, function(key, value){
+                        if(value=="yes"){
+                            $("#" + key).css("color", "red");
+                        }else{
+                            $("#" + key).css("color", "black");
+                        }
+                    });
+                }
+            }
+        });
+    }
     $(document).ready(function () {
         $("#contests").addClass("active");
+        setInterval(get_oj_status, 30 * 60 * 1000);
     });
 </script>
 {% endblock %}

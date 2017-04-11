@@ -93,6 +93,7 @@ urlpatterns = [
 
     url(r'^contests/$', "contest.views.contest_list_page", name="contest_list_page"),
     url(r'^contests/(?P<page>\d+)/$', "contest.views.contest_list_page", name="contest_list_page"),
+    url(r'^api/get_oj_status/$', "contest.views.get_oj_status", name="get_oj_status"),
 
     url(r'^api/open/problem/$', OpenAPIProblemAPI.as_view(), name="openapi_problem_api"),
 

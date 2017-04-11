@@ -5,6 +5,7 @@ import datetime
 import hashlib
 
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.db import IntegrityError
 from django.utils import dateparse
 from django.db.models import Q, Sum
@@ -609,3 +610,27 @@ def contest_problem_submissions_list_page(request, contest_id, page=1):
                   {"submissions": submissions, "page": int(page),
                    "previous_page": previous_page, "next_page": next_page, "start_id": int(page) * 20 - 20,
                    "contest": contest, "filter": filter, "user_id": user_id, "problem_id": problem_id})
+
+
+def get_oj_status(request):
+    """
+    OnlineJudge 爬虫 HDU, ZOJ, POJ, HUSTOJ, ACdream, codeforces, bestcoder
+    :param request: 
+    :return: 
+    """
+    data = dict()
+    import requests
+    ojs = ["HDU", "ZOJ", "POJ", "HUSTOJ", "ACdream", "codeforces", "bestcoder"]
+    urls = ["http://acm.hdu.edu.cn/", "http://acm.zju.edu.cn/onlinejudge/", "http://poj.org/",
+            "http://acm.hust.edu.cn/", "http://acdream.info/", "http://codeforces.com/", "http://bestcoder.hdu.edu.cn/"]
+    for i, url in enumerate(urls):
+        try:
+            r = requests.get(url)
+            if r.status_code == 200:
+                data.update({ojs[i]: "yes"})
+            else:
+                data.update({ojs[i]: "no"})
+        except:
+            data.update({ojs[i]: "no"})
+
+    return JsonResponse(data={"code": 0, "data": data})
