@@ -106,7 +106,6 @@ class UserRegisterAPIView(APIView):
             try:
                 User.objects.get(email=data["email"])
                 return error_response(u"该邮箱已被注册，请换其他邮箱进行注册")
-            # 兼容部分老数据，有邮箱重复的
             except MultipleObjectsReturned:
                 return error_response(u"该邮箱已被注册，请换其他邮箱进行注册")
             except User.DoesNotExist:

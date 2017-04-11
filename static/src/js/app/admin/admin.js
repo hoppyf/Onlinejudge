@@ -30,7 +30,8 @@ require(["jquery", "avalon", "csrfToken", "bsAlert", "bootstrap"], function ($, 
             {
                 name: "通用",
                 children: [{name: "公告管理", hash: "#announcement/announcement"},
-                    {name: "用户管理", hash: "#user/user_list"}]
+                    {name: "用户管理", hash: "#user/user_list"},
+                    {name: "批量导入用户", hash: "#user/multi_add_user"}]
             },
             {
                 name: "题目管理",
