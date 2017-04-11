@@ -42,7 +42,7 @@ require(["jquery", "avalon", "csrfToken", "bsAlert", "validator", "pager"],
                     },
                     rejudge_func: function () {
                         $.ajax({
-                            url: "api/admin/rejudge/",
+                            url: "/api/admin/rejudge/",
                             method: "post",
                             success: function(data) {
                                 if(!data.code){
