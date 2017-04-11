@@ -41,7 +41,17 @@ require(["jquery", "avalon", "csrfToken", "bsAlert", "validator", "pager"],
                         vm.isEditing = false;
                     },
                     rejudge_func: function () {
-                        bsAlert("asdf");
+                        $.ajax({
+                            url: "api/admin/rejudge/",
+                            method: "post",
+                            success: function(data) {
+                                if(!data.code){
+                                    bsAlert(data.data);
+                                }else{
+                                    bsAlert(data.data);
+                                }
+                            }
+                        });
                     }
                 });
                 vm.$watch("showEnableOnly", function () {

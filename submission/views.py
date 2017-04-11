@@ -341,25 +341,38 @@ class SubmissionShareAPIView(APIView):
 class SubmissionRejudgeAdminAPIView(APIView):
     @super_admin_required
     def post(self, request):
-        serializer = SubmissionRejudgeSerializer(data=request.data)
-        if serializer.is_valid():
-            submission_id = serializer.data["submission_id"]
-            # 目前只考虑前台公开题目的重新判题
-            try:
-                submission = Submission.objects.get(id=submission_id, contest_id__isnull=True)
-            except Submission.DoesNotExist:
-                return error_response(u"提交不存在")
-
+        # serializer = SubmissionRejudgeSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     submission_id = serializer.data["submission_id"]
+        #     # 目前只考虑前台公开题目的重新判题
+        #     try:
+        #         submission = Submission.objects.get(id=submission_id, contest_id__isnull=True)
+        #     except Submission.DoesNotExist:
+        #         return error_response(u"提交不存在")
+        #
+        #     try:
+        #         problem = Problem.objects.get(id=submission.problem_id)
+        #     except Problem.DoesNotExist:
+        #         return error_response(u"题目不存在")
+        #     try:
+        #         _judge.delay(submission.id, problem.time_limit, problem.memory_limit, problem.test_case_id,
+        #                      problem.spj, problem.spj_language, problem.spj_code, problem.spj_version)
+        #     except Exception as e:
+        #         logger.error(e)
+        #         return error_response(u"提交判题任务失败")
+        #     return success_response(u"任务提交成功，请稍后进行查看")
+        # else:
+        #     return serializer_invalid_response(serializer)
+        submissions = Submission.objects.filter(info=None)
+        for submission in submissions:
             try:
                 problem = Problem.objects.get(id=submission.problem_id)
             except Problem.DoesNotExist:
-                return error_response(u"题目不存在")
+                return error_response(u"题目不存在:{}".format(submission.problem_id))
             try:
                 _judge.delay(submission.id, problem.time_limit, problem.memory_limit, problem.test_case_id,
                              problem.spj, problem.spj_language, problem.spj_code, problem.spj_version)
             except Exception as e:
                 logger.error(e)
-                return error_response(u"提交判题任务失败")
-            return success_response(u"任务提交成功")
-        else:
-            return serializer_invalid_response(serializer)
+                return error_response(u"提交判题任务失败:{}".format(problem.title))
+        return success_response(u"重判已经开始，请稍后进行查看")
