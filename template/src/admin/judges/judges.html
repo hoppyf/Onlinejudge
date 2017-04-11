@@ -1,5 +1,11 @@
 <div ms-controller="judges" class="col-md-9">
-    <h1>判题服务器管理</h1>
+    <div>
+        <h1>判题服务器管理</h1>
+        <div class="alert alert-danger" role="alert">
+            由于各种原因，判题服务器可能崩溃导致部分题目waiting，
+            <b id="rejudge" style="cursor: pointer;" ms-click="click()">点此</b>进行重判
+        </div>
+    </div>
     <table class="table table-striped">
         <tr>
             <th>编号</th>

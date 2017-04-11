@@ -2,6 +2,13 @@ require(["jquery", "avalon", "csrfToken", "bsAlert", "validator", "pager"],
     function ($, avalon, csrfTokenHeader, bsAlert, editor) {
         avalon.ready(function () {
 
+            var vm2 = avalon.define({
+                $id: "rejudge",
+                click: function(){
+                    alert("leo");
+                },
+            });
+
             if (avalon.vmodels.judges) {
                 var vm = avalon.vmodels.judges;
             }
