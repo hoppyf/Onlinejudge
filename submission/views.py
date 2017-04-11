@@ -363,7 +363,7 @@ class SubmissionRejudgeAdminAPIView(APIView):
         #     return success_response(u"任务提交成功，请稍后进行查看")
         # else:
         #     return serializer_invalid_response(serializer)
-        submissions = Submission.objects.filter(result=0)
+        submissions = Submission.objects.filter(result=8)
         for submission in submissions:
             try:
                 problem = Problem.objects.get(id=submission.problem_id)
