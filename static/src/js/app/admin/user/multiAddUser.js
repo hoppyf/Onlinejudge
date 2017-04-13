@@ -1,4 +1,4 @@
-define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"]), function(avalon, uploader, bsAlert, $){
+define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(avalon, uploader, bsAlert, $){
     avalon.component("ms:exceluploader", {
         $template: '<div class="col-md-12">' +
         '<div id="excelFileSelector">选择文件</div>' +
@@ -43,7 +43,6 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"]), function(a
                 function (file, percentage) {
                     vm.uploadProgress = parseInt(percentage * 100);
                 });
-        
         }
     })
 });
