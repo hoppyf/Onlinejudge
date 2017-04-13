@@ -32,7 +32,6 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                         vm.excelList = [];
                         vm.uploaded = true;
                         for(var key in response.data.excel_list){
-                            bsAlert(response.data.excel_list[key].username);
                             vm.excelList.push({
                                 username: response.data.excel_list[key].username,
                                 real_name: response.data.excel_list[key].real_name,
@@ -41,7 +40,9 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                                 student_id: response.data.excel_list[key].student_id
                             });
                         }
-                        bsAlert("导入成功");
+                        bsAlert(response.data.excel_list);
+                        bsAlert(response.data.excel_list.length);
+                        //bsAlert("导入成功");
                     }
                 },
                 function (file, percentage) {
