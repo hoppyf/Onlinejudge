@@ -29,7 +29,7 @@ var require = {
         editorComponent: "components/editorComponent",
         testCaseUploader: "components/testCaseUploader",
         spj: "components/spj",
-        excelUploader: "components/excelUploader",
+        //excelUploader: "components/excelUploader",
 
 
         // ------ 下面写的都不要直接用，而是使用上面的封装版本 ------
