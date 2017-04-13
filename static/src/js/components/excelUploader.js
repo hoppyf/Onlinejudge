@@ -30,16 +30,16 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                         bsAlert(response.data);
                     }else{
                         vm.excelList = [];
+                        vm.uploaded = true;
                         for(var key in response.data.excel_list){
                             vm.excelList.push({
-                                username: response.data.username,
-                                real_name: response.data.real_name,
-                                email: response.data.email,
-                                password: response.data.password,
-                                student_id: response.data.student_id
+                                username: response.data[key].username,
+                                real_name: response.data[key].real_name,
+                                email: response.data[key].email,
+                                password: response.data[key].password,
+                                student_id: response.data[key].student_id
                             })
                         }
-                        vm.uploaded = true;
                         bsAlert("导入成功");
                     }
                 },
