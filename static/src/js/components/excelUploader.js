@@ -39,7 +39,7 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                                 student_id: response.data.student_id
                             })
                         }
-                        uploaded = true;
+                        vm.uploaded = true;
                         bsAlert("导入成功");
                     }
                 },
