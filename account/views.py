@@ -581,17 +581,16 @@ class ExcelUploadAPIView(APIView):
             return error_response(u"error:")
         try:
             for row in range(1, rows):
-                col = sheet.row_values(row)
                 excel_list.append({
-                    username: col[0],
-                    real_name: col[1],
-                    email: col[2],
-                    password: col[3],
-                    student_id: col[4]
+                    username: sheet.cell(row, 0).value,
+                    real_name: sheet.cell(row, 1).value,
+                    email: sheet.cell(row, 2).value,
+                    password: sheet.cell(row, 3).value,
+                    student_id: sheet.cell(row, 4).value
                 })
             return success_response({"excel_list": excel_list})
         except:
-            return error_response(u"error-:{} {} {} {}".format(rows,cols,type(sheet.row_values(1)),len(sheet.row_values(1))))
+            return error_response(u"error-:{} {} {} {}".format(rows,cols,type(sheet.cell(2,1).value),sheet.cell(1,0).value))
         # except:
         #     return error_response(u"读取文件失败")
 
