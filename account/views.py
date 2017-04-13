@@ -573,24 +573,16 @@ class ExcelUploadAPIView(APIView):
         try:
             user_info = xlrd.open_workbook(tmp)
             sheet = user_info.sheet_by_index(0)
-        except:
-            return error_response(u"打开文件失败")
-        try:
             rows, cols = sheet.nrows, sheet.ncols
-        except:
-            return error_response(u"error:")
-        try:
             for row in range(1, rows):
                 excel_list.append({
-                    username: sheet.cell(row, 0).value,
-                    real_name: sheet.cell(row, 1).value,
-                    email: sheet.cell(row, 2).value,
-                    password: sheet.cell(row, 3).value,
-                    student_id: sheet.cell(row, 4).value
+                    "username": sheet.cell(row, 0).value,
+                    "real_name": sheet.cell(row, 1).value,
+                    "email": sheet.cell(row, 2).value,
+                    "password": sheet.cell(row, 3).value,
+                    "student_id": sheet.cell(row, 4).value
                 })
             return success_response({"excel_list": excel_list})
         except:
-            return error_response(u"error-:{} {} {} {}".format(rows,cols,type(sheet.cell(2,1).value),sheet.cell(1,0).value))
-        # except:
-        #     return error_response(u"读取文件失败")
+            return error_response(u"读取文件失败")
 
