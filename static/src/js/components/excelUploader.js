@@ -42,7 +42,6 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                         }
                         bsAlert(response.data.excel_list);
                         bsAlert(response.data.excel_list.length);
-                        //bsAlert("导入成功");
                     }
                 },
                 function (file, percentage) {
