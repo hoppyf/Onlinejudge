@@ -1,8 +1,11 @@
 define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(avalon, uploader, bsAlert, $){
     avalon.component("ms:exceluploader", {
         $template: '<div class="col-md-12">' +
+        '<br/>' +
+        '<div class="form-group">' +
         '<div id="excelFileSelector">选择文件</div>' +
         '<p>上传进度<span ms-text="uploadProgress"></span>%</p>' +
+        '</div> ' +
         '<table class="table table-striped" ms-visible="uploaded"> ' +
         '<tr> <td>编号</td> <td>用户名</td> <td>真实姓名</td> <td>邮箱</td> <td>密码</td> <td>学号</td> </tr> ' +
         '<tr ms-repeat="excelList"> ' +
