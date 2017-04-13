@@ -31,13 +31,13 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                     }else{
                         vm.excelList = [];
                         vm.uploaded = true;
-                        for(var i = 0; i < response.data.excel_list.length; i++){
+                        for(var key in response.data.excel_list){
                             vm.excelList.push({
-                                username: response.data.excel_list[i].username,
-                                real_name: response.data.excel_list[i].real_name,
-                                email: response.data.excel_list[i].email,
-                                password: response.data.excel_list[i].password,
-                                student_id: response.data.excel_list[i].student_id
+                                username: response.data.excel_list[key].username,
+                                real_name: response.data.excel_list[key].real_name,
+                                email: response.data.excel_list[key].email,
+                                password: response.data.excel_list[key].password,
+                                student_id: response.data.excel_list[key].student_id
                             })
                         }
                         bsAlert("导入成功");
