@@ -32,6 +32,7 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                         vm.excelList = [];
                         vm.uploaded = true;
                         for(var key in response.data.excel_list){
+                            alert(response.data.excel_list[key].username);
                             vm.excelList.push({
                                 username: response.data.excel_list[key].username,
                                 real_name: response.data.excel_list[key].real_name,
