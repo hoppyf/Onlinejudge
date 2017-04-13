@@ -602,8 +602,7 @@ class ExcelUploadAPIView(APIView):
                             pass
                         user = User.objects.create(username=username,
                                             real_name=real_name,
-                                            email=email,
-                                            student_id=student_id)
+                                            email=email)
                         user.set_password(password)
                         user.save()
                         UserProfile.objects.create(user=user, student_id=student_id)
