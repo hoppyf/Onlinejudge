@@ -606,7 +606,7 @@ class ExcelUploadAPIView(APIView):
                                             student_id=student_id)
                         user.set_password(password)
                         user.save()
-                        UserProfile.objects.create(user=user, student_id=data["student_id"])
+                        UserProfile.objects.create(user=user, student_id=student_id)
             except:
                 return error_response(u"导入用户出错")
             return success_response({"excel_list": excel_list})
