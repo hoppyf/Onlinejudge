@@ -34,7 +34,7 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"]), function(a
                                 email: response.data.email,
                                 password: response.data.password,
                                 student_id: response.data.student_id
-                            });
+                            })
                         }
                         uploaded = true;
                         bsAlert("导入成功");
@@ -43,7 +43,7 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"]), function(a
                 function (file, percentage) {
                     vm.uploadProgress = parseInt(percentage * 100);
                 });
-            );
+        
         }
     })
 });
