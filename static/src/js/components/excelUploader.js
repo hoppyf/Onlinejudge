@@ -40,8 +40,7 @@ define("excelUploader", ["avalon", "uploader", "bsAlert", "jquery"], function(av
                                 student_id: response.data.excel_list[key].student_id
                             });
                         }
-                        bsAlert(response.data.excel_list);
-                        bsAlert(response.data.excel_list.length);
+                        bsAlert("录入成功");
                     }
                 },
                 function (file, percentage) {
