@@ -547,3 +547,43 @@ class UserLeaveMessageAPIView(APIView):
             return success_response(u"留言成功")
         else:
             return serializer_invalid_response(serializer)
+
+
+class ExcelUploadAPIView(APIView):
+    @super_admin_required
+    def post(self, request):
+        """
+        批量导入用户 
+        """
+        if "file" not in request.FILES:
+            return error_response(u"未上传文件")
+
+        f = request.FILES["file"]
+        tmp = "/tmp/" + rand_str() + ".xls"
+
+        import xlrd
+        try:
+            with open(tmp, "wb") as user_info:
+                for line in f:
+                    user_info.write(line)
+        except Exception as e:
+            logger.error(e)
+            return error_response(u"写入文件失败")
+        excel_list = []
+        try:
+            user_info = xlrd.open_workbook(tmp)
+            sheet = user_info.sheet_by_index(0)
+            rows, cols = sheet.nrows, sheet.ncols
+            for row in range(1, rows):
+                col = sheet.row_values(row)
+                excel_list.append({
+                    username: col[0],
+                    real_name: col[1],
+                    email: col[2],
+                    password: col[3],
+                    student_id: col[4]
+                })
+            return success_response({"excel_list": excel_list})
+        except:
+            return error_response(u"读取文件失败")
+

@@ -6,7 +6,8 @@ from account.views import (UserLoginAPIView, UsernameCheckAPIView, UserRegisterA
                            UserChangePasswordAPIView, EmailCheckAPIView,
                            UserAdminAPIView, UserInfoAPIView, ResetPasswordAPIView,
                            ApplyResetPasswordAPIView, SSOAPIView, UserProfileAPIView,
-                           TwoFactorAuthAPIView, AvatarUploadAPIView, UserLeaveMessageAPIView)
+                           TwoFactorAuthAPIView, AvatarUploadAPIView, UserLeaveMessageAPIView,
+                           ExcelUploadAPIView)
 
 from announcement.views import AnnouncementAdminAPIView
 
@@ -68,6 +69,8 @@ urlpatterns = [
     url(r'^api/admin/contest_problem/$', ContestProblemAdminAPIView.as_view(), name="contest_problem_admin_api"),
     url(r'^api/admin/contest_problem/public/', MakeContestProblemPublicAPIView.as_view(),
         name="make_contest_problem_public"),
+
+    url(r'^api/admin/multi_add_user/$', ExcelUploadAPIView.as_view(), name="excel_upload_api"),
     url(r'^api/admin/test_case_upload/$', TestCaseUploadAPIView.as_view(), name="test_case_upload_api"),
     url(r'^api/admin/test_case_download/$', TestCaseDownloadAPIView.as_view(), name="test_case_download_api"),
     url(r'^api/admin/tag/$', ProblemTagAdminAPIView.as_view(), name="problem_tag_admin_api"),
