@@ -8,6 +8,7 @@ from django.contrib import auth
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db import transaction
 from django.conf import settings
 from django.http import HttpResponse
 from django.core.exceptions import MultipleObjectsReturned
@@ -574,14 +575,40 @@ class ExcelUploadAPIView(APIView):
             user_info = xlrd.open_workbook(tmp)
             sheet = user_info.sheet_by_index(0)
             rows, cols = sheet.nrows, sheet.ncols
-            for row in range(1, rows):
-                excel_list[str(row)] = {
-                    "username": sheet.cell(row, 0).value,
-                    "real_name": sheet.cell(row, 1).value,
-                    "email": sheet.cell(row, 2).value,
-                    "password": sheet.cell(row, 3).value,
-                    "student_id": sheet.cell(row, 4).value
-                }
+            try:
+                with transaction.atomic():
+                    for row in range(1, rows):
+                        username = sheet.cell(row, 0).value
+                        real_name = sheet.cell(row, 1).value
+                        email = sheet.cell(row, 2).value
+                        password = sheet.cell(row, 3).value
+                        student_id = sheet.cell(row, 4).value
+                        excel_list[str(row)] = {
+                            "username": username,
+                            "real_name": real_name,
+                            "email": email,
+                            "password": password,
+                            "student_id": student_id
+                        }
+                        try:
+                            User.objects.get(username=username)
+                            return error_response(u"{}.该用户名已经存在，请修改".format(username))
+                        except:
+                            pass
+                        try:
+                            User.objects.get(email=email)
+                            return error_response(u"{}.该邮箱已经存在，请修改".format(email))
+                        except:
+                            pass
+                        user = User.objects.create(username=username,
+                                            real_name=real_name,
+                                            email=email,
+                                            student_id=student_id)
+                        user.set_password(password)
+                        user.save()
+                        UserProfile.objects.create(user=user, student_id=data["student_id"])
+            except:
+                return error_response(u"导入用户出错")
             return success_response({"excel_list": excel_list})
         except:
             return error_response(u"读取文件失败")
