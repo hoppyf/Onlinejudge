@@ -572,14 +572,14 @@ class ExcelUploadAPIView(APIView):
         excel_list = []
         try:
             user_info = xlrd.open_workbook(tmp)
+            sheet = user_info.sheet_by_index(0)
         except:
             return error_response(u"打开文件失败")
         try:
-            sheet = user_info.sheet_by_index(0)
-        except:
-            return error_response(u"获取工作列表失败")
-        try:
             rows, cols = sheet.nrows, sheet.ncols
+        except:
+            return error_response(u"error:")
+        try:
             for row in range(1, rows):
                 col = sheet.row_values(row)
                 excel_list.append({
@@ -591,5 +591,7 @@ class ExcelUploadAPIView(APIView):
                 })
             return success_response({"excel_list": excel_list})
         except:
-            return error_response(u"读取文件失败")
+            return error_response(u"error-:{} {} {} {}".format(rows,cols,type(sheet.row_values(1)),len(sheet.row_values(1))))
+        # except:
+        #     return error_response(u"读取文件失败")
 
