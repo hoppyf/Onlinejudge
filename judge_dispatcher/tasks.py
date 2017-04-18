@@ -146,7 +146,8 @@ class JudgeDispatcher(object):
                 problem.add_ac_number()
                 problems_status["problems"][str(problem.id)] = 1
             else:
-                problems_status["problems"][str(problem.id)] = 2
+                if problems_status["problems"].get(str(problem.id), -1) != 1:
+                    problems_status["problems"][str(problem.id)] = 2
             user.problems_status = problems_status
             user.save(update_fields=["problems_status"])
         # 普通题目的话，到这里就结束了
