@@ -37,7 +37,7 @@ require(["jquery", "codeMirror", "csrfToken", "bsAlert", "ZeroClipboard"],
         var userId;
 
         function setLanguage(language){
-            var languageTypes = {"1": "text/x-csrc", "2": "text/x-c++src", "3": "text/x-java", "4": "text/x-python"};
+            var languageTypes = {"1": "text/x-csrc", "2": "text/x-c++src", "3": "text/x-java"};
             codeEditor.setOption("mode", languageTypes[language]);
         }
 
@@ -145,9 +145,9 @@ require(["jquery", "codeMirror", "csrfToken", "bsAlert", "ZeroClipboard"],
                 return "3";
             }
             //python
-            if(code.indexOf("def") > -1) {
-                return "4";
-            }
+//            if(code.indexOf("def") > -1) {
+//                return "4";
+//            }
         }
 
         function getServerTime(){
