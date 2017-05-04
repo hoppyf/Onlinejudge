@@ -588,7 +588,7 @@ class ExcelUploadAPIView(APIView):
                             "real_name": real_name,
                             "email": email,
                             "password": password,
-                            "student_id": str(student_id)
+                            "student_id": student_id
                         }
                         try:
                             User.objects.get(username=username)
@@ -605,7 +605,7 @@ class ExcelUploadAPIView(APIView):
                                             email=email)
                         user.set_password(password)
                         user.save()
-                        UserProfile.objects.create(user=user, student_id=student_id)
+                        UserProfile.objects.create(user=user, student_id=str(int(student_id)))
             except:
                 return error_response(u"导入用户出错")
             return success_response({"excel_list": excel_list})
