@@ -588,7 +588,7 @@ class ExcelUploadAPIView(APIView):
                             "real_name": real_name,
                             "email": email,
                             "password": password,
-                            "student_id": student_id
+                            "student_id": str(student_id)
                         }
                         try:
                             User.objects.get(username=username)
