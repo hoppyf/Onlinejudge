@@ -119,51 +119,51 @@ AUTH_USER_MODEL = 'account.User'
 
 LOG_PATH = "log/"
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': True,
-#     'formatters': {
-#         'standard': {
-#             'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}
-#         # 日志格式
-#     },
-#     'handlers': {
-#         'django_error': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': LOG_PATH + 'django.log',
-#             'formatter': 'standard'
-#         },
-#         'app_info': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': LOG_PATH + 'app_info.log',
-#             'formatter': 'standard'
-#         },
-#         'console': {
-#             'level': 'DEBUG',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'standard'
-#         }
-#     },
-#     'loggers': {
-#         'app_info': {
-#             'handlers': ['app_info', "console"],
-#             'level': 'DEBUG',
-#             'propagate': True
-#         },
-#         'django.request': {
-#             'handlers': ['django_error', 'console'],
-#             'level': 'DEBUG',
-#             'propagate': True,
-#         },
-#         'django.db.backends': {
-#             'handlers': ['console'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         }
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}
+        # 日志格式
+    },
+    'handlers': {
+        'django_error': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_PATH + 'django.log',
+            'formatter': 'standard'
+        },
+        'app_info': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_PATH + 'app_info.log',
+            'formatter': 'standard'
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        }
+    },
+    'loggers': {
+        'app_info': {
+            'handlers': ['app_info', "console"],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['django_error', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        }
+    },
+}
 
 if DEBUG:
     REST_FRAMEWORK = {
